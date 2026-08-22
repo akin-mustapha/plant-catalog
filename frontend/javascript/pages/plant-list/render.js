@@ -1,4 +1,5 @@
 import { escapeHtml } from "../../utils.js";
+import { daysAgoShortLabel } from "../plant-detail/watering-history.js";
 
 const STATUS_LABEL = {
   healthy: "Healthy",
@@ -18,6 +19,7 @@ function renderCard(plant) {
   const statusLabel = STATUS_LABEL[status];
   const imageUrl = plant.image_url ? escapeHtml(plant.image_url) : "";
   const initial = escapeHtml((plant.common_name || "?").charAt(0).toUpperCase());
+  const lastWateredLabel = daysAgoShortLabel(plant.last_watered);
 
   const media = imageUrl
     ? `<div class="plant-image-wrap"><img src="${imageUrl}" alt="${name}"></div>`
@@ -32,6 +34,11 @@ function renderCard(plant) {
           <span class="status-chip status-chip--${status}">${statusLabel}</span>
         </div>
         <div class="plant-sci">${scientificName}</div>
+        ${lastWateredLabel ? `
+        <div class="plant-card-watered">
+          <span class="plant-card-watered-dot"></span>
+          Last watered <strong>${escapeHtml(lastWateredLabel)}</strong>
+        </div>` : ""}
       </div>
     </a>
   `;

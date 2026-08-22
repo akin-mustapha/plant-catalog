@@ -265,7 +265,9 @@ button:disabled {
   overflow: hidden;
   cursor: pointer;
   transition: box-shadow 0.15s ease, transform 0.15s ease;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   text-decoration: none;
   color: inherit;
 }
@@ -309,6 +311,7 @@ button:disabled {
   padding: 16px 18px 18px;
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 6px;
 }
 
@@ -335,6 +338,30 @@ button:disabled {
   font-size: 13px;
   font-style: italic;
   color: var(--ink-faint);
+}
+
+.plant-card-watered {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--hairline);
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+.plant-card-watered strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.plant-card-watered-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--healthy-dot);
+  flex-shrink: 0;
 }
 
 .status-chip {
@@ -1239,7 +1266,7 @@ fieldset legend,
 .pill-group {
   display: flex;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -1443,6 +1470,7 @@ fieldset legend,
 
   .plant-card {
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 16px;
     padding: 16px 18px;
@@ -1491,6 +1519,13 @@ fieldset legend,
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .plant-card-watered {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    font-size: 12px;
   }
 
   .plant-card--skeleton {
