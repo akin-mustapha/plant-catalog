@@ -1248,6 +1248,25 @@ fieldset legend,
   padding-right: 36px;
 }
 
+.form-input input[type="date"] {
+  color-scheme: light;
+  min-height: 42px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-input input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+  margin: 0;
+}
+
+.form-input input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.6;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
 .form-input input:focus,
 .form-input select:focus,
 .form-input textarea:focus {
