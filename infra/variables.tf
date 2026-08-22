@@ -13,7 +13,7 @@ variable "aws_account_id" {
 variable "github_repository" {
   description = "GitHub repository URL backing the Amplify app"
   type        = string
-  default     = "https://github.com/akin-mustapha/plant-app"
+  default     = "https://github.com/akin-mustapha/plant-catalog"
 }
 
 variable "amplify_branch_name" {

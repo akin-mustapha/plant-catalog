@@ -45,7 +45,7 @@ No modules.
 | <a name="input_aws_account_id"></a> [aws\_account\_id](#input\_aws\_account\_id) | AWS account ID resources are deployed into | `string` | `"861580917950"` | no |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS region for all resources | `string` | `"eu-west-1"` | no |
 | <a name="input_github_access_token"></a> [github\_access\_token](#input\_github\_access\_token) | GitHub personal access token granting Amplify read access to the repository. Supply via TF\_VAR\_github\_access\_token or a gitignored .tfvars file — never commit it. | `string` | n/a | yes |
-| <a name="input_github_repository"></a> [github\_repository](#input\_github\_repository) | GitHub repository URL backing the Amplify app | `string` | `"https://github.com/akin-mustapha/plant-app"` | no |
+| <a name="input_github_repository"></a> [github\_repository](#input\_github\_repository) | GitHub repository URL backing the Amplify app | `string` | `"https://github.com/akin-mustapha/plant-catalog"` | no |
 
 ## Outputs
 
