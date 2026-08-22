@@ -15,6 +15,8 @@ class PlantService:
 
         logger.info("Initialising Plant Service")
         self.plant_repo = PlantRepository()
+        self.activity_repo = ActivityRepository()
+        self.activity_type_repo = ActivityTypeRepository()
 
 
         self.plant_bucket="plant-app-images-eu-west-1"
@@ -30,7 +32,23 @@ class PlantService:
 
     def get_all(self):
         plants = self.plant_repo.select_all()
+
+        watering_type_id = self._get_watering_type_id()
+        if watering_type_id is not None:
+            for plant in plants:
+                latest_watering = self.activity_repo.select_latest_by_plant_id_and_type(
+                    plant["plant_id"], watering_type_id
+                )
+                plant["last_watered"] = latest_watering["activity_date"] if latest_watering else None
+
         return plants
+
+    def _get_watering_type_id(self):
+        activity_types = self.activity_type_repo.select_all() or []
+        watering_type = next(
+            (t for t in activity_types if t.get("description") == "Watering"), None
+        )
+        return watering_type["activity_type_id"] if watering_type else None
 
     def get_plant_by_id(self, plant_id: str):
         plant = self.plant_repo.select_by_id(plant_id)
