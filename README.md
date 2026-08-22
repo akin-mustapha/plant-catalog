@@ -1,4 +1,4 @@
-# Plant App
+# Plant Catalog
 
 **Overview:**
 
