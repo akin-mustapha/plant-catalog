@@ -8,6 +8,9 @@ import {
   wireImageUpload,
   wireWaterButton,
 } from "./events.js";
+import { wireNotificationBell } from "../../notification-modal.js";
+
+wireNotificationBell();
 
 const pathParams = new URLSearchParams(window.location.search);
 const plantId = pathParams.get("id");
