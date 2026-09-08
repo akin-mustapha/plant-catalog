@@ -352,12 +352,7 @@ export async function openNotificationModal() {
       showFormView({ mode: "create", notification: null });
     }
   } catch (error) {
-    if (error.status === 404) {
-      showFormView({ mode: "create", notification: null });
-    } else {
-      showFormView({ mode: "create", notification: null });
-      showNotification("Couldn't reach the reminder service — you can still set one up.", true);
-    }
+    showFormView({ mode: "create", notification: null });
   }
 }
 
