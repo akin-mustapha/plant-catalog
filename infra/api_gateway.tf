@@ -43,8 +43,8 @@ locals {
     list_activities     = "GET /plants/{id}/activities"
     delete_activity     = "DELETE /plants/{id}/activities/{activityId}"
     list_activity_types = "GET /activity-types"
-    create_notification = "POST /notifications"
-    get_notification    = "GET /notifications"
+    create_notification = "POST /plants/{id}/notifications"
+    get_notification    = "GET /plants/{id}/notifications"
   }
 }
 

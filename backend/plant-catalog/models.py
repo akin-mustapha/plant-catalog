@@ -38,6 +38,7 @@ class ActivityType:
 @dataclass
 class Notification:
     notification_id: str
+    plant_id: str
     type_id: str
     name: str
     description: str

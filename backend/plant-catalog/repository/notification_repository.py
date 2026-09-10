@@ -2,6 +2,7 @@ import logging
 from dataclasses import asdict
 
 import boto3
+from boto3.dynamodb.conditions import Attr
 from botocore.exceptions import ClientError
 
 from models import Notification
@@ -26,15 +27,17 @@ class NotificationRepository:
             logger.error(e)
             raise
 
-    def select_notification(self):
-        logger.info("Selecting notification")
+    def select_by_plant_id(self, plant_id: str):
+        logger.info(f"Selecting notification for plant id: {plant_id}")
         try:
             table = self.db.Table("notification")
-            response = table.scan()
+            response = table.scan(
+                FilterExpression=Attr("plant_id").eq(plant_id)
+            )
             items = response["Items"]
 
             if not items:
-                logger.info("No notification found")
+                logger.info(f"No notification found for plant id: {plant_id}")
                 return None
 
             item = items[0]
