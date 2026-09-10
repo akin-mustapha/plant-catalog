@@ -1,5 +1,5 @@
-resource "aws_iam_role" "post_notifications" {
-  name = "plantCatalog-post-notifications-dev-role"
+resource "aws_iam_role" "dispatch_notifications" {
+  name = "plantCatalog-dispatch-notifications-dev-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -13,9 +13,9 @@ resource "aws_iam_role" "post_notifications" {
   })
 }
 
-resource "aws_iam_role_policy" "post_notifications_logs" {
-  name = "plantCatalog-post-notifications-dev-logs"
-  role = aws_iam_role.post_notifications.id
+resource "aws_iam_role_policy" "dispatch_notifications_logs" {
+  name = "plantCatalog-dispatch-notifications-dev-logs"
+  role = aws_iam_role.dispatch_notifications.id
 
   policy = jsonencode({
     Version = "2012-10-17"
