@@ -5,7 +5,7 @@ data "archive_file" "plants_backend" {
 }
 
 resource "aws_lambda_function" "plants_backend" {
-  function_name = "plants-backend"
+  function_name = "plantCatalog-backend-dev"
   role          = aws_iam_role.plants_backend.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.13"
