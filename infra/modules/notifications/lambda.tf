@@ -1,6 +1,6 @@
 data "archive_file" "dispatch_notifications" {
   type        = "zip"
-  source_dir  = "${path.module}/../../../backend/notifications/src"
+  source_dir  = "${path.module}/../../../backend/dispatch-notification"
   output_path = "${path.module}/../../.build/dispatch-notifications.zip"
 }
 

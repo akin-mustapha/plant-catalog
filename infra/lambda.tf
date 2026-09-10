@@ -1,6 +1,6 @@
 data "archive_file" "plants_backend" {
   type        = "zip"
-  source_dir  = "${path.module}/../backend/src"
+  source_dir  = "${path.module}/../backend/plant-catalog"
   output_path = "${path.module}/.build/plants-backend.zip"
 }
 
