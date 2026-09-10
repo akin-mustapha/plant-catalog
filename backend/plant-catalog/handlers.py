@@ -3,9 +3,9 @@ import logging
 import uuid
 from datetime import datetime, timezone
 
-from models import Plant, Activity
+from models import Plant, Activity, Notification
 from routes import route
-from service import PlantService, ActivityService, ActivityTypeService
+from service import PlantService, ActivityService, ActivityTypeService, NotificationService
 from responses import json_response
 
 logger = logging.getLogger()
@@ -156,3 +156,43 @@ def get_all_activity_types(event):
 
     logger.info(f"Fetched {len(activity_types)} activity type(s)")
     return json_response(200, activity_types)
+
+@route("POST", "/plants/{id}/notifications")
+def create_notification(event):
+    body = json.loads(event["body"])
+    plant_id = event["pathParameters"]["id"]
+
+    logger.info(f'Create notification for plant {plant_id} - {body.get("name")}')
+    contacts = [
+        {"email": c, "status": "pending"} if isinstance(c, str) else c
+        for c in body.pop("contacts", [])
+    ]
+    notification = Notification(
+        notification_id=str(uuid.uuid4()),
+        plant_id=plant_id,
+        type_id=body.pop("type_id", "watering-reminder"),
+        status="ACTIVE",
+        contacts=contacts,
+        next_run_date=body.pop("next_run_date", None) or datetime.now(timezone.utc).isoformat(),
+        **body
+    )
+
+    try:
+        created_notification = NotificationService().create_notification(notification)
+    except ValueError as e:
+        return json_response(400, {"message": str(e)})
+
+    logger.info(f"Notification created - {notification.notification_id}")
+    return json_response(201, created_notification)
+
+@route("GET", "/plants/{id}/notifications")
+def get_notification(event):
+    plant_id = event["pathParameters"]["id"]
+
+    logger.info(f"Getting notification for plant {plant_id}")
+    notification = NotificationService().get_notification(plant_id)
+
+    if notification is None:
+        return json_response(404, {"message": "Notification not found"})
+
+    return json_response(200, notification)

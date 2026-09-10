@@ -4,7 +4,7 @@ import uuid
 import boto3
 from botocore.exceptions import ClientError
 
-from models import Plant, Activity
+from models import Plant
 from repository import PlantRepository, ActivityRepository, ActivityTypeRepository
 
 logger = logging.getLogger()
@@ -92,35 +92,3 @@ class PlantService:
             return {"message": "Image upload confirmation failed"}
 
         return {"message": "Image uploaded", "image_url": image_url}
-
-
-class ActivityService:
-    def __init__(self):
-        logger.info("Initialising Activity Service")
-        self.activity_repo = ActivityRepository()
-
-    def add_activity(self, activity: Activity):
-        self.activity_repo.insert_activity(activity)
-        return {"message": "Activity added successfully"}
-
-    def get_by_plant_id(self, plant_id: str):
-        activities = self.activity_repo.select_by_plant_id(plant_id)
-        return activities
-
-    def delete_activity_by_id(self, activity_id: str):
-        delete_result = self.activity_repo.delete_activity_by_id(activity_id)
-        return delete_result
-
-
-class ActivityTypeService:
-    def __init__(self):
-        logger.info("Initialising Activity Type Service")
-        self.activity_type_repo = ActivityTypeRepository()
-
-    def get_all(self):
-        activity_types = self.activity_type_repo.select_all()
-        return activity_types
-
-    def get_activity_type_by_id(self, activity_type_id: int):
-        activity_type = self.activity_type_repo.select_by_id(activity_type_id)
-        return activity_type

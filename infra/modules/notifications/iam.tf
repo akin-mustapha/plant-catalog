@@ -1,5 +1,5 @@
-resource "aws_iam_role" "plants_backend" {
-  name = "plants-backend-role"
+resource "aws_iam_role" "dispatch_notifications" {
+  name = "plantCatalog-dispatch-notifications-dev-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -13,9 +13,9 @@ resource "aws_iam_role" "plants_backend" {
   })
 }
 
-resource "aws_iam_role_policy" "plants_backend" {
-  name = "plants-backend-policy"
-  role = aws_iam_role.plants_backend.id
+resource "aws_iam_role_policy" "dispatch_notifications_logs" {
+  name = "plantCatalog-dispatch-notifications-dev-logs"
+  role = aws_iam_role.dispatch_notifications.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -36,23 +36,14 @@ resource "aws_iam_role_policy" "plants_backend" {
         Action = [
           "dynamodb:PutItem",
           "dynamodb:GetItem",
-          "dynamodb:Scan",
           "dynamodb:UpdateItem",
           "dynamodb:Query"
         ]
         Resource = [
-          aws_dynamodb_table.plants.arn,
-          aws_dynamodb_table.activity.arn,
-          "${aws_dynamodb_table.activity.arn}/index/*",
-          aws_dynamodb_table.activity_type.arn,
-          module.notifications.notification_table_arn
+          aws_dynamodb_table.notification.arn,
+          "${aws_dynamodb_table.notification.arn}/index/*",
+          aws_dynamodb_table.notification_type.arn
         ]
-      },
-      {
-        Sid      = "S3PlantImageUpload"
-        Effect   = "Allow"
-        Action   = "s3:PutObject"
-        Resource = "${aws_s3_bucket.plant_images.arn}/uploads/*"
       }
     ]
   })

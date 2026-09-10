@@ -180,10 +180,14 @@ function renderSavedView({ notification }) {
       <input type="text" value="${escapeHtml(notification?.name || "")}" disabled />
     </div>
 
-    <div class="reminder-field">
+    ${
+      notification?.description
+        ? `<div class="reminder-field">
       <label>Description</label>
-      <textarea rows="3" disabled>${escapeHtml(notification?.description || "")}</textarea>
-    </div>
+      <textarea rows="2" disabled>${escapeHtml(notification.description)}</textarea>
+    </div>`
+        : ""
+    }
 
     <div class="reminder-summary-card">
       <div class="reminder-summary-row">
@@ -270,7 +274,7 @@ function wireContactList(root) {
   updateAddButtonState();
 }
 
-export async function openNotificationModal() {
+export async function openNotificationModal(plantId) {
   const overlay = renderModalShell();
   const modalEl = overlay.querySelector(".reminder-modal");
 
@@ -319,7 +323,7 @@ export async function openNotificationModal() {
         const payload = collectFormData(form);
         const saved = mode === "edit"
           ? await updateNotification(notification.notification_id, payload)
-          : await createNotification(payload);
+          : await createNotification(plantId, payload);
         showSavedView(saved);
       } catch (error) {
         showNotification(error.message || "Unable to save reminder.", true);
@@ -345,7 +349,7 @@ export async function openNotificationModal() {
   `;
 
   try {
-    const notification = await fetchNotification();
+    const notification = await fetchNotification(plantId);
     if (notification && notification.notification_id) {
       showFormView({ mode: "edit", notification });
     } else {
@@ -356,9 +360,9 @@ export async function openNotificationModal() {
   }
 }
 
-export function wireNotificationBell() {
+export function wireNotificationBell(plantId) {
   const bellButton = document.querySelector("[data-notification-bell]");
   if (!bellButton) return;
   bellButton.innerHTML = ICONS.bell;
-  bellButton.addEventListener("click", () => openNotificationModal());
+  bellButton.addEventListener("click", () => openNotificationModal(plantId));
 }

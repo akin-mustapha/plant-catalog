@@ -1,11 +1,11 @@
 data "archive_file" "plants_backend" {
   type        = "zip"
-  source_dir  = "${path.module}/../backend/src"
+  source_dir  = "${path.module}/../backend/plant-catalog"
   output_path = "${path.module}/.build/plants-backend.zip"
 }
 
 resource "aws_lambda_function" "plants_backend" {
-  function_name = "plants-backend"
+  function_name = "plantCatalog-backend-dev"
   role          = aws_iam_role.plants_backend.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.13"
