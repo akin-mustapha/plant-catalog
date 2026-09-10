@@ -1,4 +1,5 @@
 import logging
+from dataclasses import asdict
 
 from models import Notification
 from repository import NotificationRepository
@@ -16,10 +17,10 @@ class NotificationService:
     def create_notification(self, notification: Notification):
         self.validate_notification(notification)
         self.notification_repo.insert_notification(notification)
-        return {"message": "Notification created successfully"}
+        return asdict(notification)
 
-    def get_notification(self, user_id: str):
-        pass
+    def get_notification(self):
+        return self.notification_repo.select_notification()
 
     def update_notification(self, notification_id: str, notification):
         pass

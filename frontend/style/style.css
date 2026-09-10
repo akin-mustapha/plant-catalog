@@ -1890,6 +1890,10 @@ fieldset legend,
   gap: 6px;
 }
 
+.reminder-modal > .reminder-field + .reminder-field {
+  margin-top: 18px;
+}
+
 .reminder-field label {
   font-size: 14px;
   font-weight: 600;
@@ -2140,6 +2144,7 @@ fieldset legend,
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 4px 18px;
+  margin-top: 18px;
 }
 
 .reminder-summary-row {

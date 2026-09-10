@@ -180,10 +180,14 @@ function renderSavedView({ notification }) {
       <input type="text" value="${escapeHtml(notification?.name || "")}" disabled />
     </div>
 
-    <div class="reminder-field">
+    ${
+      notification?.description
+        ? `<div class="reminder-field">
       <label>Description</label>
-      <textarea rows="3" disabled>${escapeHtml(notification?.description || "")}</textarea>
-    </div>
+      <textarea rows="2" disabled>${escapeHtml(notification.description)}</textarea>
+    </div>`
+        : ""
+    }
 
     <div class="reminder-summary-card">
       <div class="reminder-summary-row">

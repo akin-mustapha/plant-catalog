@@ -26,8 +26,24 @@ class NotificationRepository:
             logger.error(e)
             raise
 
-    def select_by_user_id(self, user_id: str):
-        pass
+    def select_notification(self):
+        logger.info("Selecting notification")
+        try:
+            table = self.db.Table("notification")
+            response = table.scan()
+            items = response["Items"]
+
+            if not items:
+                logger.info("No notification found")
+                return None
+
+            item = items[0]
+            logger.info(f"Selected notification {item.get('notification_id')}")
+
+            return {k: (list(v) if isinstance(v, set) else v) for k, v in item.items()}
+        except ClientError as e:
+            logger.error(e)
+            return None
 
     def select_by_id(self, notification_id: str):
         pass

@@ -162,9 +162,16 @@ def create_notification(event):
     body = json.loads(event["body"])
 
     logger.info(f'Create notification - {body.get("name")}')
+    contacts = [
+        {"email": c, "status": "pending"} if isinstance(c, str) else c
+        for c in body.pop("contacts", [])
+    ]
     notification = Notification(
         notification_id=str(uuid.uuid4()),
+        type_id=body.pop("type_id", "watering-reminder"),
         status="ACTIVE",
+        contacts=contacts,
+        next_run_date=body.pop("next_run_date", None) or datetime.now(timezone.utc).isoformat(),
         **body
     )
 
@@ -175,3 +182,13 @@ def create_notification(event):
 
     logger.info(f"Notification created - {notification.notification_id}")
     return json_response(201, created_notification)
+
+@route("GET", "/notifications")
+def get_notification(event):
+    logger.info("Getting notification")
+    notification = NotificationService().get_notification()
+
+    if notification is None:
+        return json_response(404, {"message": "Notification not found"})
+
+    return json_response(200, notification)
