@@ -3,9 +3,9 @@ import logging
 import uuid
 from datetime import datetime, timezone
 
-from models import Plant, Activity
+from models import Plant, Activity, Notification
 from routes import route
-from service import PlantService, ActivityService, ActivityTypeService
+from service import PlantService, ActivityService, ActivityTypeService, NotificationService
 from responses import json_response
 
 logger = logging.getLogger()
@@ -156,3 +156,22 @@ def get_all_activity_types(event):
 
     logger.info(f"Fetched {len(activity_types)} activity type(s)")
     return json_response(200, activity_types)
+
+@route("POST", "/notifications")
+def create_notification(event):
+    body = json.loads(event["body"])
+
+    logger.info(f'Create notification - {body.get("name")}')
+    notification = Notification(
+        notification_id=str(uuid.uuid4()),
+        status="ACTIVE",
+        **body
+    )
+
+    try:
+        created_notification = NotificationService().create_notification(notification)
+    except ValueError as e:
+        return json_response(400, {"message": str(e)})
+
+    logger.info(f"Notification created - {notification.notification_id}")
+    return json_response(201, created_notification)

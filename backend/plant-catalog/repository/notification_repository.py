@@ -1,7 +1,10 @@
 import logging
+from dataclasses import asdict
 
 import boto3
 from botocore.exceptions import ClientError
+
+from models import Notification
 
 logger = logging.getLogger()
 
@@ -14,8 +17,14 @@ class NotificationRepository:
         except ClientError as e:
             logger.error(e)
 
-    def insert_notification(self, notification):
-        pass
+    def insert_notification(self, notification: Notification):
+        logger.info(f"Inserting notification {notification.notification_id} into DB")
+        try:
+            table = self.db.Table("notification")
+            table.put_item(Item=asdict(notification))
+        except ClientError as e:
+            logger.error(e)
+            raise
 
     def select_by_user_id(self, user_id: str):
         pass
