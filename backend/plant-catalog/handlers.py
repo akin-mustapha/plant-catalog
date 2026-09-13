@@ -186,11 +186,11 @@ def create_notification(event):
     return json_response(201, created_notification)
 
 @route("GET", "/plants/{id}/notifications")
-def get_notification(event):
+def get_plant_notification(event):
     plant_id = event["pathParameters"]["id"]
 
     logger.info(f"Getting notification for plant {plant_id}")
-    notification = NotificationService().get_notification(plant_id)
+    notification = NotificationService().get_plant_notification(plant_id)
 
     if notification is None:
         return json_response(404, {"message": "Notification not found"})

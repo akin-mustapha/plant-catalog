@@ -19,7 +19,7 @@ class NotificationService:
         self.notification_repo.insert_notification(notification)
         return asdict(notification)
 
-    def get_notification(self, plant_id: str):
+    def get_plant_notification(self, plant_id: str):
         return self.notification_repo.select_by_plant_id(plant_id)
 
     def update_notification(self, notification_id: str, notification):
