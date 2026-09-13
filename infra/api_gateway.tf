@@ -32,19 +32,23 @@ resource "aws_apigatewayv2_integration" "lambda" {
 
 locals {
   plant_routes = {
-    list_plants         = "GET /plants"
-    create_plant        = "POST /plants"
-    get_plant           = "GET /plants/{id}"
-    update_plant        = "PUT /plants/{id}"
-    delete_plant        = "DELETE /plants/{id}"
-    image_upload_url    = "POST /plants/{id}/image/upload-url"
-    image_confirm       = "POST /plants/{id}/image/confirm"
-    create_activity     = "POST /plants/{id}/activities"
-    list_activities     = "GET /plants/{id}/activities"
-    delete_activity     = "DELETE /plants/{id}/activities/{activityId}"
-    list_activity_types = "GET /activity-types"
-    create_notification = "POST /plants/{id}/notifications"
-    get_notification    = "GET /plants/{id}/notifications"
+    list_plants            = "GET /plants"
+    create_plant           = "POST /plants"
+    get_plant              = "GET /plants/{id}"
+    update_plant           = "PUT /plants/{id}"
+    delete_plant           = "DELETE /plants/{id}"
+    image_upload_url       = "POST /plants/{id}/image/upload-url"
+    image_confirm          = "POST /plants/{id}/image/confirm"
+    create_activity        = "POST /plants/{id}/activities"
+    list_activities        = "GET /plants/{id}/activities"
+    delete_activity        = "DELETE /plants/{id}/activities/{activityId}"
+    list_activity_types    = "GET /activity-types"
+    create_notification    = "POST /plants/{id}/notifications"
+    get_plant_notification = "GET /plants/{id}/notifications"
+    list_notifications     = "GET /notifications"
+    get_notification       = "GET /notifications/{id}"
+    update_notification    = "PUT /notifications/{id}"
+    delete_notification    = "DELETE /notifications/{id}"
   }
 }
 
