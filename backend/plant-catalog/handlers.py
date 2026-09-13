@@ -186,13 +186,70 @@ def create_notification(event):
     return json_response(201, created_notification)
 
 @route("GET", "/plants/{id}/notifications")
-def get_notification(event):
+def get_plant_notification(event):
     plant_id = event["pathParameters"]["id"]
 
     logger.info(f"Getting notification for plant {plant_id}")
-    notification = NotificationService().get_notification(plant_id)
+    notification = NotificationService().get_plant_notification(plant_id)
 
     if notification is None:
         return json_response(404, {"message": "Notification not found"})
 
     return json_response(200, notification)
+
+@route("GET", "/notifications")
+def get_notification_list(event):
+    logger.info("Getting all notifications")
+    notifications = NotificationService().get_all()
+
+    logger.info(f"Fetched {len(notifications)} notification(s)")
+    return json_response(200, notifications)
+
+@route("GET", "/notifications/{id}")
+def get_notification(event):
+    notification_id = event["pathParameters"]["id"]
+
+    logger.info(f"Getting notification by id {notification_id}")
+    notification = NotificationService().get_notification_by_id(notification_id)
+
+    if notification is None:
+        return json_response(404, {"message": "Notification not found"})
+
+    return json_response(200, notification)
+
+@route("PUT", "/notifications/{id}")
+def update_notification(event):
+    body = json.loads(event["body"])
+    notification_id = event["pathParameters"]["id"]
+
+    logger.info(f"Updating notification by id {notification_id}")
+
+    contacts = [
+        {"email": c, "status": "pending"} if isinstance(c, str) else c
+        for c in body.pop("contacts", [])
+    ]
+    notification = Notification(
+        notification_id=notification_id,
+        contacts=contacts,
+        **{k: v for k, v in body.items() if k not in ("notification_id", "contacts")}
+    )
+
+    try:
+        update_result = NotificationService().update_notification(notification_id, notification)
+    except ValueError as e:
+        return json_response(400, {"message": str(e)})
+
+    logger.info("Updated a notification")
+    return json_response(201, update_result)
+
+@route("DELETE", "/notifications/{id}")
+def delete_notification(event):
+    notification_id = event["pathParameters"]["id"]
+
+    logger.info(f"Deleting notification by id {notification_id}")
+
+    delete_result = NotificationService().delete_notification(notification_id)
+
+    logger.info("Deleted a notification")
+
+    return json_response(200, delete_result)
