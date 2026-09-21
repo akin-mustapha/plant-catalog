@@ -49,3 +49,21 @@ class Notification:
     interval: str = None
     next_run_date: str = None
     topic_arn: str = None
+
+
+@dataclass
+class Contact:
+    contact_id: str
+    notification_id: str
+    name: str
+    email: str
+    phone_number: str
+    created: str
+    active: bool
+
+
+@dataclass
+class NotificationContact:
+    notification_id: str
+    contact_id: str
+

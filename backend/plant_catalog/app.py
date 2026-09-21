@@ -20,7 +20,7 @@ def lambda_handler(event, context):
     )
 
     handler = ROUTES.get(route_key)
-
+    
     if handler is None:
         return {
             'statusCode': 404,
@@ -32,3 +32,25 @@ def lambda_handler(event, context):
     except Exception as e:
         logger.error(e)
         return json_response(500, {"message": "Internal server error"})
+
+
+if __name__ == "__main__":
+    # For local testing
+    test_event = {
+        "requestContext": {
+            "http": {
+                "method": "POST",
+            },
+        },
+        "pathParameters": {"id": "1"},
+        "body": """{
+            \"type_id\": \"1\",
+            \"name\": \"Watering Reminder\",
+            \"description\": \"Reminder to water the plant\",
+            # \"status\": \"active\",
+            \"contacts\": [\"contact1\", \"contact2\"]
+        }""",
+        "routeKey": "POST /plants/{id}/notifications"
+    }
+    response = lambda_handler(test_event, None)
+    print(response)

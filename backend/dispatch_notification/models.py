@@ -49,3 +49,5 @@ class Notification:
     interval: str = None
     next_run_date: str = None
     topic_arn: str = None
+
+

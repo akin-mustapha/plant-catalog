@@ -45,7 +45,9 @@ resource "aws_iam_role_policy" "plants_backend" {
           aws_dynamodb_table.activity.arn,
           "${aws_dynamodb_table.activity.arn}/index/*",
           aws_dynamodb_table.activity_type.arn,
-          module.notifications.notification_table_arn
+          module.notifications.notification_table_arn,
+          module.notifications.contact_table_arn,
+          module.notifications.notification_contact_table_arn
         ]
       },
       {
