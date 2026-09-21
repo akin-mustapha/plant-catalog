@@ -5,7 +5,7 @@ import boto3
 from boto3.dynamodb.conditions import Attr
 from botocore.exceptions import ClientError
 
-from models import Notification
+from models import Notification, Contact, NotificationContact
 
 logger = logging.getLogger()
 
@@ -18,14 +18,25 @@ class NotificationRepository:
         except ClientError as e:
             logger.error(e)
 
-    def insert_notification(self, notification: Notification):
-        logger.info(f"Inserting notification {notification.notification_id} into DB")
+    def insert_to_table(self, table_name: str, item: dict):
+        logger.info(f"Inserting item into {table_name} table")
         try:
-            table = self.db.Table("notification")
-            table.put_item(Item=asdict(notification))
+            table = self.db.Table(table_name)
+            table.put_item(Item=item)
         except ClientError as e:
             logger.error(e)
             raise
+    def insert_notification(self, notification: Notification):
+        logger.info(f"Inserting notification {notification.notification_id} into DB")
+        self.insert_to_table("notification", asdict(notification))
+        
+    def insert_contact(self, contact: Contact):
+        logger.info(f"Inserting contact {contact.contact_id} into DB")
+        self.insert_to_table("contact", asdict(contact))
+        
+    def insert_notification_contact(self, notification_contact: NotificationContact):
+        logger.info(f"Inserting notification contact {notification_contact.notification_id} into DB")
+        self.insert_to_table("notification_contact", asdict(notification_contact))
 
     def select_by_plant_id(self, plant_id: str):
         logger.info(f"Selecting notification for plant id: {plant_id}")

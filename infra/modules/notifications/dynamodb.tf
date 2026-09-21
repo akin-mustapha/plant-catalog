@@ -65,3 +65,61 @@ resource "aws_dynamodb_table" "notification_log" {
     type = "S"
   }
 }
+
+resource "aws_dynamodb_table" "contact" {
+  name         = "contact"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "contact_id"
+
+  attribute {
+    name = "contact_id"
+    type = "S"
+  }
+
+  # attribute {
+  #   name = "user_id"
+  #   type = "S"
+  # }
+
+  # attribute {
+  #   name = "name"
+  #   type = "S"
+  # }
+
+  # attribute {
+  #   name = "email_address"
+  #   type = "S"
+  # }
+
+  # attribute {
+  #   name = "mobile_number"
+  #   type = "S"
+  # }
+
+  # attribute {
+  #   name = "created_at"
+  #   type = "S"
+
+  # }
+
+  # attribute {
+  #   name = "active"
+  #   type = "B"
+  # }
+}
+
+resource "aws_dynamodb_table" "notification_contact" {
+  name         = "notification_contact"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "notification_id"
+
+  attribute {
+    name = "notification_id"
+    type = "S"
+  }
+
+  # attribute {
+  #   name = "contact_id"
+  #   type = "S"
+  # }
+}

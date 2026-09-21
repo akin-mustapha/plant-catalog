@@ -1,13 +1,6 @@
 import json
 import logging
 
-import boto3
-from boto3.dynamodb.conditions import Key, Attr
-from botocore.exceptions import ClientError
-
-from notification_repository import NotificationRepository
-
-
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
@@ -22,12 +15,7 @@ logger.setLevel(logging.INFO)
     
 def lambda_handler(event, context):
     logger.info("Received event: %s", json.dumps(event))
-    
-    notification_repo = NotificationRepository()
-    
-    notification_id = notification_repo.select_all()
-
     return {
         "statusCode": 200,
-        "body": json.dumps(notification_id)
+        "body": json.dumps(event)
     }

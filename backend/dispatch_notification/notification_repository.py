@@ -5,7 +5,7 @@ import boto3
 from boto3.dynamodb.conditions import Attr
 from botocore.exceptions import ClientError
 
-from models import Notification
+from .models import Notification
 
 logger = logging.getLogger()
 
@@ -147,3 +147,24 @@ class NotificationRepository:
         logger.info(f"Deleted {notification_id}")
 
         return {"message": "Notification deleted successfully"}
+
+
+class NotificationRepositoryLocal:
+    def __init__(self):
+        logger.info("Initialising Local Repository")
+        self.db = None
+
+    def select_all(self):
+        logger.info("Selecting all notifications from local repository")
+        
+        return [{'user_id': None, 'interval': None, 'schedule': '0 9 * * 1', 'next_run_date': '2026-09-10T15:23:57.348260+00:00', 'contacts': ['you@emp.com'], 'type_id': 'watering-reminder', 'status': 'ACTIVE', 'topic_arn': None, 'notification_id': 'd383c57c-fa07-4d96-b990-6f0b159572d1', 'description': '', 'name': 'Test'}, {'user_id': None, 'interval': None, 'plant_id': '34f46ab0-e99d-4adc-a0ff-a4953359e98e', 'schedule': '0 9 * * 1', 'next_run_date': '2026-09-10T15:38:07.679668+00:00', 'contacts': [{'email': 'test@eosne.com', 'status': 'pending'}], 'type_id': 'watering-reminder', 'status': 'ACTIVE', 'topic_arn': None, 'notification_id': '76292aab-6cee-4c71-a381-de74b0e9ed8f', 'description': '', 'name': 'test'}]
+
+
+class NotificationRepositoryFactory:
+    @staticmethod
+    def get(env: str = "local"):
+        if env == "local":
+            return NotificationRepositoryLocal()
+        else:
+            return NotificationRepository()
+        
