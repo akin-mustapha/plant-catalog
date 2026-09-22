@@ -37,13 +37,24 @@ resource "aws_iam_role_policy" "dispatch_notifications_logs" {
           "dynamodb:PutItem",
           "dynamodb:GetItem",
           "dynamodb:UpdateItem",
-          "dynamodb:Query"
+          "dynamodb:Query",
+          "dynamodb:Scan"
         ]
         Resource = [
           aws_dynamodb_table.notification.arn,
           "${aws_dynamodb_table.notification.arn}/index/*",
-          aws_dynamodb_table.notification_type.arn
+          aws_dynamodb_table.notification_type.arn,
+          aws_dynamodb_table.notification_log.arn
         ]
+      },
+      {
+        Sid    = "SESAccess"
+        Effect = "Allow"
+        Action = [
+          "ses:SendEmail",
+          "ses:SendRawEmail"
+        ]
+        Resource = "*"
       }
     ]
   })
