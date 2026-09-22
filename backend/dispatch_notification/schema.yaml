@@ -1,0 +1,9 @@
+notification:
+  - name
+  - description
+  - active
+  - contact_list
+    - email
+  - created
+  - updated
+
