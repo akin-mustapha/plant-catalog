@@ -1,20 +1,15 @@
 import json
 import logging
+from service import NotificationDispatchService
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-
-
-## Connect to DynamoDB
-# try:
-#     db_client = boto3.resource("dynamodb", region_name='eu-west-1')
-#     table = db_client.Table("notification")
-# except ClientError as e:
-#     logger.error(e)
-    
     
 def lambda_handler(event, context):
     logger.info("Received event: %s", json.dumps(event))
+    
+    NotificationDispatchService().send_notifications()
+    
     return {
         "statusCode": 200,
         "body": json.dumps(event)
