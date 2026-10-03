@@ -21,23 +21,6 @@ class NotificationService:
         
         self.notification_repo.insert_notification(notification)
         
-        for contact in notification.contacts or []:
-            contact = Contact(
-                contact_id=contact.get("contact_id", str(uuid.uuid4())),
-                notification_id=notification.notification_id,
-                name=contact.get("name"),
-                email=contact.get("email"),
-                phone_number=contact.get("phone_number"),
-                created=contact.get("created"),
-                active=contact.get("active", True)
-            )
-            self.notification_repo.insert_contact(contact)
-            notification_contact = NotificationContact(
-                notification_id=notification.notification_id,
-                contact_id=contact.contact_id
-            )
-            self.notification_repo.insert_notification_contact(notification_contact)
-        
         return asdict(notification)
 
     def get_plant_notification(self, plant_id: str):

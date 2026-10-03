@@ -30,14 +30,6 @@ class NotificationRepository:
         logger.info(f"Inserting notification {notification.notification_id} into DB")
         self.insert_to_table("notification", asdict(notification))
         
-    def insert_contact(self, contact: Contact):
-        logger.info(f"Inserting contact {contact.contact_id} into DB")
-        self.insert_to_table("contact", asdict(contact))
-        
-    def insert_notification_contact(self, notification_contact: NotificationContact):
-        logger.info(f"Inserting notification contact {notification_contact.notification_id} into DB")
-        self.insert_to_table("notification_contact", asdict(notification_contact))
-
     def select_by_plant_id(self, plant_id: str):
         logger.info(f"Selecting notification for plant id: {plant_id}")
         try:
