@@ -2,7 +2,10 @@ import boto3
 from botocore.exceptions import ClientError
 from models import NotificationLog
 from repository import NotificationRepositoryFactory
+import logging
 
+logger = logging.getLogger()
+logger.setLevel(level="INFO")
 
 class NotificationDispatchService:
     def __init__(self):
@@ -16,7 +19,7 @@ class NotificationDispatchService:
               contacts = notification.get("contacts", [])
               for contact in contacts:
                     email = contact.get("email")
-                    print("Sending email to: ", email)
+                    logger.info("Sending email to: %s", email)
                     self.ses_client.send_email(
                       Source="akinkunmimustapha1@gmail.com",
                       Destination={
