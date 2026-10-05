@@ -1,26 +1,32 @@
 import React, { useState } from 'react';
+import { Home, PlantPot, Cross, CircleUserRound } from 'lucide-react';
 
 const navItems = [
-  { name: 'Home', href: '/' },
-  { name: 'Plants', href: '/plants' },
-  { name: 'RIP', href: '/plants/rip' },
-  { name: 'Profile', href: '/profile' },
+  { id: 'Home', href: '/', label: 'Home', icon: Home },
+  { id: 'Plants', href: '/plants', icon: PlantPot },
+  { id: 'RIP', href: '/plants/rip', icon: Cross },
+  { id: 'Profile', href: '/profile', icon: CircleUserRound },
 ];  
 
 function NavIsland() {
   const [activeTab, setActiveTab] = useState('home');
 
   return (
-    <div>
-      <h2>Navigation Island</h2>
-      <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/plants">Plants</a></li>
-          <li><a href="/about">About</a></li>
-        </ul>
-      </nav>
-    </div>
+    <nav>
+      {navItems.map((item) => {
+        const Icon = item.icon;
+        const isActive = activeTab === item.id;
+
+        return <>
+          <button>
+            <Icon />
+
+          </button>
+        </>
+      })}
+
+
+    </nav>
   )
 }
 

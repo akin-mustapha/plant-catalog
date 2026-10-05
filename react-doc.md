@@ -18,10 +18,22 @@ npm -v
 npm create vite@latest ./frontend/v2 -- --template react-ts
 ```
 
+**Install Lucide React:**
+
+```sh
+npm install lucide-react
+```
+
+## Run react ui
+
+```sh
+cd frontend/vs
+npm run dev
+```
+
 ## Architecture / Design
 
 **Pages:**
 
 - Home - weather widget, Plant List, nav island
 - Plant Page - plant image, infor, nav island
-
